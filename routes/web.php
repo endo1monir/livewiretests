@@ -19,4 +19,5 @@ Route::get('/', function () {
 });
 Route::get('/post/{post}',[\App\Http\Controllers\PostController::class,'show'])->name('posts.show');
 Route::get('/posts/{post}/edit',[\App\Http\Controllers\PostController::class,'edit'])->name('posts.edit');
+Route::patch('posts/{post}',[\App\Http\Controllers\PostController::class,'update'])->name('posts.update');
 Route::post('/comments/post/{post}',[\App\Http\Controllers\CommentController::class,'store'])->name('comment.store');
