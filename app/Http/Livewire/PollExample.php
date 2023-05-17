@@ -14,7 +14,6 @@ class PollExample extends Component
     }
     public function getRevenue(){
      return   $this->revenue=DB::table('orders')->sum('price');
-
     }
     public function render()
     {

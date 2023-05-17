@@ -12,7 +12,7 @@
                     <p class="mt-1 max-w-2xl text-sm leading-5 text-gray-500">
                         You can edit your post here.
                     </p>
-                    @if(session()->has('success_message'))
+                    @if($successMessage)
 
                         <div class="rounded-md bg-green-50 p-4 mt-8">
                             <div class="flex">
@@ -24,11 +24,11 @@
                                     </svg>
                                 </div>
                                 <div class="ml-3">
-                                    <p class="text-sm lead">{{ session()->get('success_message') }}</p>
+                                    <p class="text-sm lead">{{ $successMessage }}</p>
                                 </div>
                                 <div class=" ml-auto pl-3">
                                     <div class="-mx-1.5 -my-1.5">
-                                        <button type="button"
+                                        <button wire:click="$set('successMessage',null)" type="button"
                                                 class="inline-flex rounded-md p-1.5 text-green-500 hover:bg-green-100 focus:outline-none focus:bg-green-100 transition ease-in-out duration-150"
                                                 aria-label="Dismiss">
                                             <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -53,7 +53,7 @@
                         </label>
                         <div class="mt-1 sm:mt-0 sm:col-span-2">
                             <div class="max-w-lg rounded-md shadow-sm sm:max-w-xs">
-                                <input id="title" name="title"
+                                <input wire:model="title" id="title" name="title"
                                        class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
                                        value="{{ $post->title }}">
                                 @error('title')
@@ -71,7 +71,7 @@
                         </label>
                         <div class="mt-1 sm:mt-0 sm:col-span-2">
                             <div class="max-w-lg flex rounded-md shadow-sm">
-                            <textarea id="content" name="content" rows="5"
+                            <textarea wire:model="content" id="content" name="content" rows="5"
                                       class="form-textarea block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">{{ $post->content }}</textarea>
                             </div>
                             @error('content')
@@ -94,15 +94,15 @@
                             x-on:livewire-upload-error="isUploading = false"
                             x-on:livewire-upload-progress="progress = $event.detail.progress"
                         >
-                            <input type="file" name="photo">
+                            <input type="file" wire:model="photo" name="photo">
                             @error('photo')
                             <p class="text-red-500 mt-1">{{ $message }}</p>
                             @enderror
 
                             <!-- Progress Bar -->
-                            {{--                                <div class="mt-4" x-show="isUploading">--}}
-                            {{--                                    <progress max="100" x-bind:value="progress"></progress>--}}
-                            {{--                                </div>--}}
+                                                            <div class="mt-4" x-show="isUploading">
+                                                                <progress max="100" x-bind:value="progress"></progress>
+                                                            </div>
 
                             <div>
                                 {{--                                    <svg wire:loading wire:target="photo" class="animate-spin -ml-1 mr-3 h-5 w-5 text-gray-600"--}}
@@ -115,8 +115,8 @@
                             </div>
 
                             <div class="mt-4">
-                                @if (!$photo)
-                                    <img src="" alt="temp">
+                                @if ($photo)
+                                    <img src="{{$tempPhoto}}" alt="temp">
                                 @elseif ($post->photo)
                                     <img src="{{ Storage::url($post->photo) }}" alt="cover image">
                                 @endif
