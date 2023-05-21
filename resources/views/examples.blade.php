@@ -106,4 +106,9 @@
 <div class="my-8">
     <livewire:poll-example/>
 </div>
+
+    <div>
+        <h1>Tags example</h1>
+<livewire:tags-component/>
+    </div>
 @endsection
